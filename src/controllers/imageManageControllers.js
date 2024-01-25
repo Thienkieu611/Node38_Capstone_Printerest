@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import initModels from '../models/init-models.js'
 import sequelize from '../models/connect.js'
+import { createToken } from "../config/jwt.js";
 
 const Op = Sequelize.Op;
 const conn = initModels(sequelize);
@@ -9,7 +10,11 @@ const getUserInformation = async (req, res) => {
     let { userId } = req.query;
     try {
         const data = await conn.nguoi_dung.findByPk(userId);
-        res.send(data);
+        const payload = {
+            data
+        };
+        let token = createToken(payload);
+        res.status(200).send(token);
     } catch (error) {
         console.log(`Error: ${error}`);
     }
@@ -21,7 +26,11 @@ const getListImageSavedById = async (req, res) => {
         const data = await conn.nguoi_dung.findByPk(userId, {
             include: ['luu_anhs']
         });
-        res.send(data);
+        let payload = {
+            data
+        };
+        let token = createToken(payload);
+        res.status(200).send(token);
     } catch (error) {
         console.log(`Error: ${error}`);
     }
@@ -33,7 +42,11 @@ const getListImageCreatedById = async (req, res) => {
         const data = await conn.nguoi_dung.findByPk(userId, {
             include: ['hinh_anhs']
         });
-        res.send(data);
+        let payload = {
+            data
+        };
+        let token = createToken(payload);
+        res.status(200).send(token);
     } catch (error) {
         console.log(`Error: ${error}`);
     }
@@ -77,7 +90,12 @@ const editUserInformation = async (req, res) => {
                     nguoi_dung_id: `${userId}`
                 }
             });
-            res.status(200).send('Updated successfull!');
+            let payload = {
+                email,
+                password
+            };
+            let token = createToken(payload);
+            res.status(200).send(token);
         }
     } catch (error) {
         console.log(`Error: ${error}`);
