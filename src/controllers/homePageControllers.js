@@ -8,7 +8,11 @@ const conn = initModels(sequelize);
 const getImage = async (req, res) => {
     try {
         const data = await conn.hinh_anh.findAll();
-        res.send(data);
+        let payload = {
+            data
+        };
+        let token = createToken(payload);
+        res.send(token);
     } catch (error) {
         console.log(`Error: ${error}`);
     }
@@ -22,7 +26,11 @@ const getImageByName = async (req, res) => {
                 [Op.like]: `%${imgName}%`
             }}
         });
-        res.send(data);
+        let payload = {
+            data
+        };
+        let token = createToken(payload);
+        res.send(token);
     } catch (error) {
         console.log(`Error: ${error}`);
     }

@@ -30,17 +30,7 @@ const blockApi = async (req, res, next) => {
         if (verifyToken.statusCode == 401) {
             res.status(401).send("Invalid token")
             return
-        }
-        let { user_id } = verifyToken.data;
-        let checkUser = await conn.nguoi_dung.findOne({
-            where: {
-                nguoi_dung_id: user_id
-            }
-        })
-        if (!checkUser) {
-            res.status(401).send("Invalid token")
-            return
-        }
+        };
         next();
     } else {
         res.status(401).send("Unauthorized");
