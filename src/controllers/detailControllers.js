@@ -42,6 +42,12 @@ const getInfoComment = async (req, res) => {
   try {
     let { id } = req.params;
 
+    //check image
+    const image = await conn.hinh_anh.findByPk(id);
+    if (!image) {
+      return res.status(404).send("Image is not found !");
+    }
+
     let comment = await conn.binh_luan.findAll({
       where: {
         hinh_id: id,
@@ -54,14 +60,13 @@ const getInfoComment = async (req, res) => {
         },
       ],
     });
+
     if (comment) {
       let payload = {
         comment,
       };
       let token = createToken(payload);
       res.status(200).send(token);
-    } else {
-      res.status(404).send("Image is not found !");
     }
   } catch (error) {
     res.send(`Error: ${error}`);
