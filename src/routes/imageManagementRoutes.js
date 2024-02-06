@@ -14,7 +14,7 @@ const imageManagementRoutes = express.Router();
 imageManagementRoutes.get("/information", getUserInformation);
 imageManagementRoutes.get("/image-saved", blockApi, getListImageSavedById);
 imageManagementRoutes.get("/image-created", blockApi, getListImageCreatedById);
-imageManagementRoutes.post("/delete-image", blockApi, deleteImageById);
+imageManagementRoutes.delete("/delete-image", blockApi, deleteImageById);
 imageManagementRoutes.put("/edit-information", editUserInformation);
 imageManagementRoutes.post("/create-image", blockApi, createImage);
 

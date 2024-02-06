@@ -3,7 +3,6 @@ import initModels from "../models/init-models.js";
 import sequelize from "../models/connect.js";
 import { createToken } from "../config/jwt.js";
 
-const Op = Sequelize.Op;
 const conn = initModels(sequelize);
 
 const getUserInformation = async (req, res) => {
@@ -55,6 +54,16 @@ const getListImageCreatedById = async (req, res) => {
 const deleteImageById = async (req, res) => {
   let { imageId } = req.query;
   try {
+    await conn.binh_luan.destroy({
+      where: {
+        hinh_id: imageId,
+      },
+    });
+    await conn.luu_anh.destroy({
+      where: {
+        hinh_id: imageId,
+      }
+    });
     await conn.hinh_anh.destroy({
       where: {
         hinh_id: imageId,
